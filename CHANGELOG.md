@@ -1,3 +1,7 @@
+## 1.1.3
+
+* IOS remove UIwebview
+
 ## 1.1.2
 
 * Forked project to use versioning 
