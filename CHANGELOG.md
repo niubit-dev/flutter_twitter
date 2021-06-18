@@ -1,3 +1,7 @@
+## 1.1.4
+
+* Add flutter web support!
+
 ## 1.1.3
 
 * IOS remove UIwebview
