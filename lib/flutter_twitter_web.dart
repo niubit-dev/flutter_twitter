@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:js_util';
 
 import 'flutter_twitter_web_js.dart';
 
@@ -12,16 +13,12 @@ class TwitterLogin {
   final String consumerSecret;
 
   Future<TwitterLoginResult> authorize([String oauthToken]) async {
-    final Map<dynamic, dynamic> result = await TwitterLoginWeb().getAuthToken(oauthToken);
+    TwitterLoginResultWeb result = await promiseToFuture(TwitterLoginWeb().getAuthToken(oauthToken));
 
-    return new TwitterLoginResult._(result.cast<String, dynamic>());
+    return new TwitterLoginResult._(result);
   }
 
   Future<void> logOut() async => {};
-
-  // static void registerWith(Registrar registrar) {
-  //   TwitterLogin.instance = TwitterLogin();
-  // }
 }
 
 class TwitterLoginResult {
@@ -40,14 +37,12 @@ class TwitterLoginResult {
   /// otherwise null.
   final String errorMessage;
 
-  TwitterLoginResult._(Map<String, dynamic> map)
-      : status = _parseStatus(map['status']),
-        session = map['session'] != null
-            ? new TwitterSession.fromMap(
-                map['session'].cast<String, dynamic>(),
-              )
+  TwitterLoginResult._(TwitterLoginResultWeb res)
+      : status = _parseStatus(res.status),
+        session = res.session != null
+            ? new TwitterSession.fromMap(res.session)
             : null,
-        errorMessage = map['errorMessage'];
+        errorMessage = res.errorMessage;
 
   static TwitterLoginStatus _parseStatus(String status) {
     switch (status) {
@@ -98,11 +93,11 @@ class TwitterSession {
   /// Constructs a new access token instance from a [Map].
   ///
   /// This is used mostly internally by this library.
-  TwitterSession.fromMap(Map<String, dynamic> map)
-      : secret = map['secret'],
-        token = map['token'],
-        userId = map['userId'],
-        username = map['username'];
+  TwitterSession.fromMap(TwitterSessionWeb session)
+      : secret = session.secret,
+        token = session.token,
+        userId = null,
+        username = null;
 
   /// Transforms this access token to a [Map].
   ///
