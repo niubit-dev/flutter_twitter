@@ -4,13 +4,9 @@ version: 1.1.4
 homepage: https://github.com/niubit-dev/flutter_twitter
 
 dependencies:
-  flutter_twitter_web:
-    git:
-      url: https://github.com/niubit-dev/flutter_twitter_web.git
-      ref: master
-
   flutter:
     sdk: flutter
+  js: ^0.6.3
 
 dev_dependencies:
   flutter_test:

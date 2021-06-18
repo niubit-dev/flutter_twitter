@@ -100,7 +100,7 @@ class TwitterLogin {
   /// ```
   ///
   /// See the [TwitterLoginResult] class for more documentation.
-  Future<TwitterLoginResult> authorize() async {
+  Future<TwitterLoginResult> authorize([String oauthToken]) async {
     final Map<dynamic, dynamic> result =
         await channel.invokeMethod('authorize', _keys);
 
